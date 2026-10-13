@@ -1,0 +1,226 @@
+
+.categorias-container {
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  color: #1f2937;
+}
+
+.categorias-cabecalho {
+  margin-bottom: 24px;
+}
+
+.categorias-cabecalho h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.categorias-cabecalho p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.categorias-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.categorias-formulario,
+.categorias-listagem {
+  min-width: 0;
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.categorias-formulario h2,
+.categorias-listagem h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.categorias-formulario form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.categorias-formulario label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.categorias-formulario input,
+.categorias-formulario select,
+.categorias-listagem-cabecalho select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.categorias-botoes-formulario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.categorias-botoes-formulario button,
+.categoria-acoes button {
+  padding: 9px 13px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.categorias-botoes-formulario button {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.categorias-botoes-formulario button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.categorias-botoes-formulario .botao-cancelar {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.categorias-listagem-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.categorias-listagem-cabecalho select {
+  width: auto;
+  min-width: 130px;
+}
+
+.categorias-lista {
+  display: flex;
+  flex-direction: column;
+}
+
+.categoria-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.categoria-item:last-child {
+  border-bottom: none;
+}
+
+.categoria-informacoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.categoria-informacoes strong {
+  overflow-wrap: anywhere;
+}
+
+.categoria-tipo {
+  width: fit-content;
+  padding: 4px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.tipo-receita {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tipo-despesa {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.categoria-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.botao-editar {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.botao-excluir {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.categorias-vazio {
+  padding: 24px 0;
+  color: #6b7280;
+  text-align: center;
+}
+
+.categorias-alerta {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.categorias-alerta.erro {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.categorias-alerta.sucesso {
+  background: #dcfce7;
+  color: #166534;
+}
+
+@media (max-width: 800px) {
+  .categorias-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .categorias-container {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categoria-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .categorias-listagem-cabecalho {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .categorias-listagem-cabecalho select {
+    width: 100%;
+  }
+}

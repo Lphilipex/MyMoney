@@ -1,0 +1,29 @@
+
+# Java / Spring Boot
+backend/target/
+*.class
+*.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Configurações locais
+.env
+.env.*
+!.env.example
+application-local.properties
+
+# IDEs
+.idea/
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini

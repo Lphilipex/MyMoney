@@ -1,0 +1,153 @@
+
+.cadastro-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f3f6fb;
+  box-sizing: border-box;
+}
+
+.cadastro-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px;
+  background: #ffffff;
+  border: 1px solid #e8ebf1;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(20, 40, 80, 0.10);
+  box-sizing: border-box;
+}
+
+.cadastro-logo {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  border-radius: 16px;
+  background: #176b4d;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.cadastro-card h1 {
+  margin: 0;
+  text-align: center;
+  color: #176b4d;
+  font-size: 28px;
+}
+
+.cadastro-subtitulo {
+  margin: 8px 0 28px;
+  text-align: center;
+  color: #718096;
+}
+
+.cadastro-card h2 {
+  margin: 0 0 8px;
+  color: #1f2937;
+  font-size: 23px;
+}
+
+.cadastro-descricao {
+  margin-bottom: 22px;
+  color: #718096;
+}
+
+.cadastro-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cadastro-campo label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.cadastro-campo input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.cadastro-campo input:focus {
+  outline: 2px solid #b7e4d1;
+  border-color: #176b4d;
+}
+
+.cadastro-campo small {
+  display: block;
+  margin-top: 7px;
+  color: #718096;
+  font-size: 12px;
+}
+
+.cadastro-card form > button {
+  margin-top: 4px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #176b4d;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cadastro-card form > button:hover {
+  background: #12553d;
+}
+
+.cadastro-card form > button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.cadastro-mensagem {
+  margin: 0;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.cadastro-mensagem.sucesso {
+  background: #e1f7ed;
+  color: #16865a;
+}
+
+.cadastro-mensagem.erro {
+  background: #ffebeb;
+  color: #d34848;
+}
+
+.cadastro-voltar {
+  margin-top: 24px;
+  text-align: center;
+  color: #718096;
+  font-size: 14px;
+}
+
+.cadastro-voltar button {
+  border: none;
+  background: none;
+  color: #176b4d;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .cadastro-card {
+    padding: 24px;
+  }
+}
