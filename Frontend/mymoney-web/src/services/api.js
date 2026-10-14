@@ -1,7 +1,14 @@
 
 
 
+
 const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL) {
+    console.error(
+        "A variável VITE_API_URL não foi configurada."
+    );
+}
 
 
 // Converte a resposta da API em um objeto JavaScript.
