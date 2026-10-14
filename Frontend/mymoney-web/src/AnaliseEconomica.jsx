@@ -1,12 +1,14 @@
 
 import { useEffect, useState } from "react";
 
+
 import {
   buscarAnaliseEconomica,
   buscarMetaEconomia,
   salvarMetaEconomia,
   buscarHistoricoEconomico,
-  buscarGastosPorCategoria
+  buscarGastosPorCategoria,
+  listarInvestimentos
 } from "./services/api";
 
 

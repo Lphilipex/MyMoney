@@ -6,12 +6,15 @@ import Login from "./Login";
 import AnaliseEconomica from "./AnaliseEconomica";
 
 
+
 import {
   buscarResumoFinanceiro,
   listarReceitas,
   listarDespesas,
-  listarCategorias
+  listarCategorias,
+  listarInvestimentos
 } from "./services/api";
+
 
 import Receitas from "./Receitas";
 import Despesas from "./Despesas";
@@ -56,6 +59,55 @@ function App() {
     setPagina("inicio");
     setTela("login");
   }
+
+  
+    const [investimentos, setInvestimentos] = useState([]);
+    const [carregandoInvestimentos, setCarregandoInvestimentos] =
+    useState(true);
+    const [erroInvestimentos, setErroInvestimentos] = useState("");
+
+    
+useEffect(() => {
+  if (
+    tela !== "inicio" ||
+    pagina !== "inicio" ||
+    !sessionStorage.getItem("token")
+  ) {
+    return;
+  }
+
+  let ativo = true;
+
+  async function carregarInvestimentos() {
+    setCarregandoInvestimentos(true);
+    setErroInvestimentos("");
+
+    try {
+      const dados = await listarInvestimentos();
+
+      if (ativo) {
+        setInvestimentos(Array.isArray(dados) ? dados : []);
+      }
+    } catch (erroApi) {
+      if (ativo) {
+        setErroInvestimentos(
+          erroApi.message ||
+            "Não foi possível carregar os investimentos."
+        );
+      }
+    } finally {
+      if (ativo) {
+        setCarregandoInvestimentos(false);
+      }
+    }
+  }
+
+  carregarInvestimentos();
+
+  return () => {
+    ativo = false;
+  };
+}, [tela, pagina]);
 
 
   // Busca o resumo financeiro do mês selecionado.
@@ -199,6 +251,32 @@ function App() {
       currency: "BRL"
     });
   }
+  
+const investimentosDoMes = investimentos.filter((item) => {
+  if (!item.dataMovimentacao) {
+    return false;
+  }
+
+  const data = String(item.dataMovimentacao);
+  const [anoItem, mesItem] = data.split("-");
+
+  return (
+    Number(anoItem) === ano &&
+    Number(mesItem) === mes
+  );
+});
+
+const totalAportes = investimentosDoMes
+  .filter((item) => item.operacao?.toUpperCase() === "APORTE")
+  .reduce((total, item) => total + Number(item.valor || 0), 0);
+
+const totalRetiradas = investimentosDoMes
+  .filter((item) => item.operacao?.toUpperCase() === "RETIRADA")
+  .reduce((total, item) => total + Number(item.valor || 0), 0);
+
+const saldoMovimentacoesInvestimentos =
+  totalAportes - totalRetiradas;
+
 
   function formatarMes(mes, ano) {
     const texto = new Date(ano, mes - 1, 1).toLocaleDateString(
@@ -527,73 +605,132 @@ function App() {
         </article>
       </section>
 
-      <section className="painel">
-        <div className="painel-topo">
-          <div>
-            <h3>Movimentações recentes</h3>
-            <p>Suas últimas receitas e despesas cadastradas.</p>
-          </div>
-        </div>
+      
+<section className="painel">
+  <div className="painel-topo">
+    <div>
+      <h3>Investimentos</h3>
+      <p>
+        Resumo das movimentações de {formatarMes(mes, ano)}.
+      </p>
+    </div>
+  </div>
 
-        {erroMovimentacoes && (
-          <div className="mensagem-erro-dashboard">
-            {erroMovimentacoes}
-          </div>
-        )}
+  {erroInvestimentos && (
+    <div className="cartoes-alerta erro">
+      {erroInvestimentos}
+    </div>
+  )}
 
-        {carregandoMovimentacoes ? (
-          <p>Carregando movimentações...</p>
-        ) : movimentacoes.length === 0 ? (
-          <p>Nenhuma movimentação cadastrada.</p>
-        ) : (
-          <div className="movimentacoes-lista">
-            {movimentacoes.map(item => (
-              <div className="movimentacao-item" key={item.id}>
-                <div className="movimentacao-info">
-                  <strong>{item.descricao || "Sem descrição"}</strong>
-                  <span>{item.categoria}</span>
-                  <small>
-                    {item.data
-                      ? new Date(`${item.data}T12:00:00`).toLocaleDateString(
-                          "pt-BR"
-                        )
-                      : "Sem data"}
-                    {" · "}
-                    {item.status || "Sem status"}
-                  </small>
-                </div>
+  <section className="resumo">
+    <article className="card">
+      <div className="card-topo">
+        <span>Total de aportes</span>
+        <span className="icone verde">↗</span>
+      </div>
 
-                <div>
-                  <strong
-                    className={`movimentacao-valor ${
-                      item.tipo === "RECEITA" ? "receita" : "despesa"
-                    }`}
-                  >
-                    {item.tipo === "RECEITA" ? "+" : "-"}
-                    {formatarMoeda(item.valor)}
-                  </strong>
+      <h3>
+        {carregandoInvestimentos
+          ? "Carregando..."
+          : formatarMoeda(totalAportes)}
+      </h3>
 
-                  <button
-                    type="button"
-                    className="botao-secundario"
-                    onClick={() => {
-                      if (item.tipo === "RECEITA") {
-                        setReceitaParaEditar(item.registro);
-                        setPagina("receitas");
-                      } else {
-                        setDespesaParaEditar(item.registro);
-                        setPagina("despesas");
-                      }
-                    }}
-                  >
-                    Editar
-                  </button>
-                </div>
+      <p>Valores investidos no mês</p>
+    </article>
+
+    <article className="card">
+      <div className="card-topo">
+        <span>Total de retiradas</span>
+        <span className="icone vermelho">↘</span>
+      </div>
+
+      <h3>
+        {carregandoInvestimentos
+          ? "Carregando..."
+          : formatarMoeda(totalRetiradas)}
+      </h3>
+
+      <p>Valores retirados no mês</p>
+    </article>
+
+    <article className="card">
+      <div className="card-topo">
+        <span>Saldo das movimentações</span>
+        <span className="icone verde">R$</span>
+      </div>
+
+      <h3>
+        {carregandoInvestimentos
+          ? "Carregando..."
+          : formatarMoeda(saldoMovimentacoesInvestimentos)}
+      </h3>
+
+      <p>Aportes menos retiradas</p>
+    </article>
+  </section>
+
+  <div className="painel-topo">
+    <div>
+      <h3>Movimentações de investimentos</h3>
+      <p>Últimos registros cadastrados.</p>
+    </div>
+  </div>
+
+  {carregandoInvestimentos ? (
+    <p>Carregando investimentos...</p>
+  ) : investimentos.length === 0 ? (
+    <p>Nenhum investimento cadastrado.</p>
+  ) : (
+    <div className="movimentacoes-lista">
+      {[...investimentos]
+        .sort((a, b) =>
+          String(b.dataMovimentacao || "").localeCompare(
+            String(a.dataMovimentacao || "")
+          )
+        )
+        .slice(0, 5)
+        .map((item) => {
+          const aporte =
+            item.operacao?.toUpperCase() === "APORTE";
+
+          return (
+            <div className="movimentacao-item" key={item.id}>
+              <div className="movimentacao-info">
+                <strong>{item.nome || "Investimento"}</strong>
+
+                <span>
+                  {item.tipo || "Sem tipo"}
+                  {item.instituicao
+                    ? ` · ${item.instituicao}`
+                    : ""}
+                </span>
+
+                <small>
+                  {item.dataMovimentacao
+                    ? new Date(
+                        `${item.dataMovimentacao}T12:00:00`
+                      ).toLocaleDateString("pt-BR")
+                    : "Sem data"}
+                  {" · "}
+                  {item.operacao || "Sem operação"}
+                </small>
               </div>
-            ))}
-          </div>
-        )}
-      </section>
+
+              <strong
+                className={`movimentacao-valor ${
+                  aporte ? "receita" : "despesa"
+                }`}
+              >
+                {aporte ? "+" : "-"}
+                {formatarMoeda(item.valor)}
+              </strong>
+            </div>
+          );
+        })}
+    </div>
+  )}
+</section>
+
 
       <footer className="rodape">
         MyMoney — Controle suas finanças com organização.

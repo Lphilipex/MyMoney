@@ -310,6 +310,14 @@ export async function alterarSenhaUsuario(dados) {
   );
 }
 
+/* INVESTIMENTOS */
+
+// Lista os investimentos cadastrados.
+export async function listarInvestimentos() {
+  return requisicaoAutenticada("/investimentos");
+}
+
+
 
 
 
