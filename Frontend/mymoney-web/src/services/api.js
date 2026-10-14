@@ -2,13 +2,19 @@
 
 
 
-const API_URL = import.meta.env.VITE_API_URL;
 
-if (!API_URL) {
-    console.error(
-        "A variável VITE_API_URL não foi configurada."
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, "");
+
+function urlApi(caminho) {
+  if (!API_URL) {
+    throw new Error(
+      "A URL da API não foi configurada. Verifique VITE_API_URL na Vercel."
     );
+  }
+
+  return `${API_URL}${caminho}`;
 }
+
 
 
 // Converte a resposta da API em um objeto JavaScript.
@@ -37,7 +43,7 @@ async function processarResposta(resposta) {
 
 // Cadastra um novo usuário.
 export async function cadastrarUsuario(dados) {
-  const resposta = await fetch(`${API_URL}/usuarios`, {
+  const resposta = await 
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -51,7 +57,7 @@ export async function cadastrarUsuario(dados) {
 
 // Realiza o login.
 export async function loginUsuario(dados) {
-  const resposta = await fetch(`${API_URL}/auth/login`, {
+  const resposta = await fetch(urlApi("/auth/login"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -72,7 +78,7 @@ async function requisicaoAutenticada(url) {
     throw new Error("Sua sessão expirou. Faça login novamente.");
   }
 
-  const resposta = await fetch(`${API_URL}${url}`, {
+  const resposta = await fetch(urlApi(url), {
     method: "GET",
     headers: {
       "Accept": "application/json",
@@ -161,7 +167,7 @@ async function requisicaoAutenticadaComBody(url, metodo, dados) {
     opcoes.body = JSON.stringify(dados);
   }
 
-  const resposta = await fetch(`http://localhost:8080${url}`, opcoes);
+  const resposta = await fetch(urlApi(url), opcoes);
   return processarResposta(resposta);
 }
 
