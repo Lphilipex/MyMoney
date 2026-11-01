@@ -19,8 +19,10 @@ public class CorsConfig {
                         .allowedOrigins(
                                 "http://localhost:5173",
                                 "http://127.0.0.1:5173",
-                                "https://my-money-p8iltue2i-lphilipexs-projects.vercel.app"
-                        )
+                                "https://my-money-nine-zeta.vercel.app",
+                                "https://my-money-p8iltue2i-lphilipexs-projects.vercel.app",
+                                "https://my-money-ohelw5kqt-lphilipexs-projects.vercel.app"
+                            )
                         .allowedMethods(
                                 "GET",
                                 "POST",
