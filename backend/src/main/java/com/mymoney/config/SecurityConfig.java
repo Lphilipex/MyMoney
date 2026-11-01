@@ -82,7 +82,8 @@ public class SecurityConfig {
             "http://127.0.0.1:5173",
             "https://my-money-nine-zeta.vercel.app",
             "https://my-money-p8iltue2i-lphilipexs-projects.vercel.app",
-            "https://my-money-ohelw5kqt-lphilipexs-projects.vercel.app"
+            "https://my-money-ohelw5kqt-lphilipexs-projects.vercel.app",
+            "https://my-money-bx6emjrht-lphilipexs-projects.vercel.app/"
         ));
 
         configuration.setAllowedMethods(List.of(
