@@ -43,7 +43,7 @@ async function processarResposta(resposta) {
 
 // Cadastra um novo usuário.
 export async function cadastrarUsuario(dados) {
-  const resposta = await 
+  const resposta = await fetch(urlApi("/auth/registro"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -54,7 +54,6 @@ export async function cadastrarUsuario(dados) {
 
   return processarResposta(resposta);
 }
-
 // Realiza o login.
 export async function loginUsuario(dados) {
   const resposta = await fetch(urlApi("/auth/login"), {
